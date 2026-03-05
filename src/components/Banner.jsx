@@ -2,7 +2,7 @@ export default function Banner() {
   return (
     <div className="banner">
       <img
-        src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=1400&q=80&fit=crop"
+        src="/concept-de-collage-html-et-css-avec-pirate.jpg"
         alt="Cybersecurity Banner"
         style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%' }}
         onError={(e) => {

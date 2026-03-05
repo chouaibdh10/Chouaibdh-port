@@ -1,6 +1,6 @@
 /* ===== CSS Variables (Fuwari-style) ===== */
 :root {
-  --hue: 250;
+  --hue: 200;
   --primary: hsl(var(--hue), 80%, 60%);
   --primary-light: hsl(var(--hue), 80%, 70%);
   --primary-dark: hsl(var(--hue), 80%, 50%);
