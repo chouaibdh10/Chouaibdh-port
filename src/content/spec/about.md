@@ -4,7 +4,7 @@ Hi there 👋 I'm **Boudouh Ahmed Chouaib**
 
 🎓 3rd year student at ESTIN
 
-💻 Passionate about Web Development and Cybersecurity
+💻 Passionate about Cybersecurity
 
 📍 Based in Algeria
 
