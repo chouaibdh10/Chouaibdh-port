@@ -11,7 +11,6 @@ function renderContent(content) {
   const elements = [];
   let inCodeBlock = false;
   let codeLines = [];
-  let codeLang = '';
   let key = 0;
 
   for (let i = 0; i < lines.length; i++) {
@@ -29,7 +28,6 @@ function renderContent(content) {
         inCodeBlock = false;
       } else {
         inCodeBlock = true;
-        codeLang = line.trim().replace('```', '');
       }
       continue;
     }
@@ -52,9 +50,28 @@ function renderContent(content) {
     } else if (trimmed.startsWith('# ')) {
       elements.push(<h1 key={key++}>{formatInline(trimmed.slice(2))}</h1>);
     }
+    // Horizontal rule
+    else if (/^(-{3,}|\*{3,})$/.test(trimmed)) {
+      elements.push(<hr key={key++} className="post-divider" />);
+    }
     // Blockquote
     else if (trimmed.startsWith('> ')) {
       elements.push(<blockquote key={key++}>{formatInline(trimmed.slice(2))}</blockquote>);
+    }
+    // Ordered list
+    else if (/^\d+\.\s+/.test(trimmed)) {
+      const items = [trimmed.replace(/^\d+\.\s+/, '')];
+      while (i + 1 < lines.length && /^\d+\.\s+/.test(lines[i + 1].trim())) {
+        i++;
+        items.push(lines[i].trim().replace(/^\d+\.\s+/, ''));
+      }
+      elements.push(
+        <ol key={key++}>
+          {items.map((item, j) => (
+            <li key={j}>{formatInline(item)}</li>
+          ))}
+        </ol>
+      );
     }
     // Unordered list
     else if (trimmed.startsWith('- ')) {
@@ -141,6 +158,7 @@ function formatInline(text) {
 export default function PostPage() {
   const { id } = useParams();
   const post = posts.find((p) => p.id === id);
+  const isDfirPost = post?.id === 'dfir-pcap-analysis-workflow';
 
   if (!post) {
     return (
@@ -160,7 +178,7 @@ export default function PostPage() {
 
   return (
     <div className="main-layout fade-in">
-      <main className="post-page">
+      <main className={`post-page ${isDfirPost ? 'post-page-dfir' : ''}`}>
         <Link
           to="/"
           style={{

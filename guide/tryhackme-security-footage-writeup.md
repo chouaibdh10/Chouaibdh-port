@@ -1,149 +1,113 @@
 ---
 title: TryHackMe - Security Footage Recovery Writeup
 published: 2025-11-06
-description: Recovering destroyed security footage from a PCAP file using Wireshark and Foremost
+description: Recover destroyed security footage from a PCAP by carving JPEG frames with Wireshark and Foremost.
 image: ''
 tags: [CTF, Forensics, TryHackMe, Wireshark, Network Analysis]
 category: CTF
 draft: false
 ---
 
-## 🕵️ Challenge Description
+## Challenge Description
 
-Security Footage — TryHackMe Writeup
+Room: https://tryhackme.com/room/securityfootage
 
-Category:** (Forensics / Network) /// Difficulty:** Medium ///// Room link:** https://tryhackme.com/room/securityfootage
+An office break-in occurred and the hard drives containing CCTV footage were destroyed.
+You receive a `.pcap` file with network traffic and must recover the footage from captured HTTP data.
 
-Someone broke into our office last night, but they destroyed the hard drives with the security footage. Can you recover the footage?
+## Tools Used
 
-We are given a `.pcap` file that contains HTTP traffic. Our goal is to extract and recover the images (security footage frames) from this capture.
+- **Wireshark** for packet analysis and stream inspection
+- **Foremost** for file carving based on signatures
 
-## 🧰 Tools Used
+## Step-by-step solution
 
-- **Wireshark** — For analyzing HTTP packets and TCP streams
-- **Foremost** — For extracting image files based on file signatures
-
-## 🧾 Summary of Steps
-
-### 1️⃣ Open the .pcap file in Wireshark
-
-Make sure your terminal is in the same directory as the `.pcap` file.
+### 1) Open the PCAP in Wireshark
 
 ```bash
 wireshark security-footage.pcap
 ```
 
-Wireshark displays all network packets — look for HTTP traffic.
+Focus on HTTP traffic.
 
-### 2️⃣ Checking the TCP Stream
+### 2) Inspect TCP streams
 
-Once we inspect the TCP stream, we notice key indicators confirming the presence of image data.
+In Wireshark, right-click an HTTP packet and choose:
 
-**Steps:**
+- Follow -> TCP Stream
 
-1. In Wireshark, right-click on any HTTP packet and choose:
-   - **Follow → TCP Stream** (or use the shortcut `Ctrl + Alt + Shift + T`)
-
-2. You'll see the full HTTP exchange — headers + content.
-
-3. Look for headers such as:
+Look for headers like:
 
 ```http
 Content-Type: image/jpeg
 Content-Length: 20485
 ```
 
-:::important
-These headers confirm that the traffic contains JPEG images.
-:::
+These indicate JPEG image content in transit.
 
-### 3️⃣ Applying a Filter for JPEG Traffic
+### 3) Filter JPEG-related packets
 
-To isolate relevant packets, apply the filter:
+Apply this display filter:
 
-```
+```text
 tcp contains "jpeg"
 ```
 
-This filter looks for the ASCII string `jpeg` within TCP payloads — usually part of HTTP headers. It's a quick way to find all packets related to image transfers.
+Multiple hits usually mean multiple image frames.
 
-:::tip
-Multiple matches typically indicate multiple images (frames) are being transmitted.
-:::
+### 4) Carve images with Foremost
 
-### 4️⃣ Extracting Images Automatically with Foremost
-
-Instead of manually saving each image, we can use **Foremost**, a forensic tool that identifies and extracts files based on header/footer signatures.
-
-#### 🔹 Install Foremost
+Install Foremost (if needed):
 
 ```bash
 sudo apt install foremost
 ```
 
-#### 🔹 Run Foremost on the .pcap file
+Run Foremost on the PCAP:
 
 ```bash
 foremost -i security-footage-1648933966395.pcap -o results_folder
 ```
 
-Foremost scans the raw data and extracts all recognized files — in this case, JPEG images — into the `results_folder/`.
-
-#### 🔹 Check the Output Folder
-
-Inside `results_folder/jpg/`, you should find several images:
+Check carved JPEG files:
 
 ```bash
 ls results_folder/jpg/
 ```
 
-Expected output:
-```
+Expected output pattern:
+
+```text
 00000000.jpg  00000001.jpg  00000002.jpg  00000003.jpg  ...
 ```
 
-### 5️⃣ Viewing the Recovered Frames
-
-Open the first image and hold down the `→` (right arrow) key on your keyboard. This creates an animated playback effect, simulating the security footage.
+### 5) View recovered frames
 
 ```bash
-# Using an image viewer
 eog results_folder/jpg/00000000.jpg
+```
 
-# Or use feh for quick browsing
+Or browse quickly:
+
+```bash
 feh results_folder/jpg/
 ```
 
-## ✅ Result
+## Result
 
-You successfully recovered multiple JPEG frames from the `.pcap` file — effectively reconstructing the destroyed security footage.
+Recovered multiple JPEG frames from the PCAP, effectively reconstructing the destroyed security footage.
 
-## 🔑 Key Takeaways
+## Key takeaways
 
-- **PCAP files** can contain more than just network metadata — they hold actual file data
-- **Wireshark filters** are powerful for isolating specific traffic types
-- **Foremost** is an excellent tool for automated file carving from raw data
-- **HTTP traffic analysis** is a fundamental skill in network forensics
+- PCAP files can contain full transferred files, not only metadata
+- Wireshark filters accelerate forensic triage
+- Foremost is effective for automated carving from raw capture data
+- HTTP analysis is a core network forensics skill
 
-## 📚 Additional Resources
+## Additional resources
 
 - [Wireshark Documentation](https://www.wireshark.org/docs/)
 - [Foremost Manual](http://foremost.sourceforge.net/)
-- [TryHackMe - Network Forensics](https://tryhackme.com/)
+- [TryHackMe](https://tryhackme.com/)
 
-## 🙏 Acknowledgments
-
-Thanks to **TryHackMe** for this awesome forensic room! And thanks for reading my writeup! 🚀
-
----
-
-### Related Challenges
-
-If you enjoyed this challenge, you might also like:
-- Network Miner - Advanced PCAP analysis
-- Wireshark CTF - More packet analysis challenges
-- Digital Forensics Case Studies
-
-:::note
-This writeup is for educational purposes only. Always ensure you have permission before analyzing network traffic.
-:::
+This writeup is for educational purposes only. Analyze network captures only when authorized.

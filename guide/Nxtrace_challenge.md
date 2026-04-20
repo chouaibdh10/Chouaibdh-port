@@ -1,52 +1,46 @@
 ---
-title:  My Nextrace challenge Writeup
+title: My Nextrace Challenge Writeup
 published: 2025-10-24
-description: Recovering destroyed security footage from a PCAP file using Wireshark and Foremost
+description: Solving a steganography challenge by extracting a hidden passphrase from EXIF metadata.
 image: ''
 tags: [CTF, Forensics, steghide, exiftool]
 category: CTF
 draft: false
 ---
 
-## 🕵️ Challenge Description
+## Challenge Description
 
-> simple  Forensics / Steganography challenge.  
-> Players receive an image and must discover a hidden passphrase within its metadata to extract a concealed file (`flag.txt`) inside the image.
+This is a simple forensics and steganography challenge.
+You are given an image and must discover a hidden passphrase in metadata to extract a concealed file (`flag.txt`).
 
-We are given an image file **`can_u_see.jpg`**.  
-Our goal is to **analyze the EXIF metadata**, **decode the hidden Base64 string**, and then **use `steghide`** with the decoded passphrase to recover the hidden flag file.
+Given file: **`can_u_see.jpg`**
 
----
+Goal:
+- Analyze EXIF metadata
+- Decode a hidden Base64 string
+- Use `steghide` with the recovered passphrase
 
-## 🧰 Tools Used
+## Tools Used
 
-* **exiftool** — To view and analyze EXIF metadata.  
-* **base64** — To decode the hidden Base64-encoded string.  
-* **steghide** — To extract hidden files from image or audio containers.
+- **exiftool** for EXIF metadata inspection
+- **base64** for decoding the hidden value
+- **steghide** for extracting concealed files
 
----
+## Step-by-step solution
 
-## 🧾 Summary of Steps
-
-### 1️⃣ Inspect the Image Metadata
-
-Use `exiftool` to inspect the EXIF metadata of the image:
+### 1) Inspect image metadata
 
 ```bash
 exiftool can_u_see.jpg
 ```
 
-In the output, we notice a suspicious Base64 string:
+Suspicious output:
 
 ```
 UserComment: cm91Z2k=
 ```
 
-This clearly looks like Base64-encoded text — our hidden clue.
-
----
-
-### 2️⃣ Decode the Base64 String
+### 2) Decode the Base64 value
 
 ```bash
 echo 'cm91Z2k=' | base64 -d
@@ -58,21 +52,19 @@ Output:
 rougi
 ```
 
----
-
-### 3️⃣ Extract the Hidden File with Steghide
-
-Now that we have the passphrase, we can use steghide to extract the hidden file from the image:
+### 3) Extract hidden file with steghide
 
 ```bash
 steghide extract -sf can_u_see.jpg -p rougi
 ```
 
-If successful, steghide confirms:
+Expected message:
 
 ```
 wrote extracted file "flag.txt"
 ```
+
+Read the flag:
 
 ```bash
 cat flag.txt
@@ -84,14 +76,8 @@ Output:
 nexus{chouaib_is_hereeeeeee}
 ```
 
----
+## Result
 
-## ✅ Result
+You recover the flag by combining metadata analysis and steganography extraction.
 
-You successfully extracted the hidden flag from the image by:
-
-1. Reading the EXIF metadata
-2. Decoding the Base64 string
-3. Using the passphrase with steghide
-
-🎉 **Flag:** `nexus{chouaib_is_hereeeeeee}`
+**Flag:** `nexus{chouaib_is_hereeeeeee}`

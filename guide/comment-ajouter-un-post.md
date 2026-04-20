@@ -1,20 +1,20 @@
-# Comment ajouter un post plus tard
+# How to Add a New Post Later
 
-Ce projet utilise des fichiers markdown dans le dossier `guide/` et une liste de posts dans `src/data/posts.js`.
+This project uses markdown files in the `guide/` folder and a post list in `src/data/posts.js`.
 
-## Etape 1: Creer le fichier markdown
+## Step 1: Create the markdown file
 
-Ajoute un nouveau fichier dans `guide/`, par exemple:
+Add a new file in `guide/`, for example:
 
-- `guide/mon-nouveau-writeup.md`
+- `guide/my-new-writeup.md`
 
-Tu peux utiliser ce modele:
+You can use this template:
 
 ```md
 ---
-title: Mon nouveau writeup
+title: My new writeup
 published: 2026-03-15
-description: Courte description de ton post
+description: Short description of your post
 image: ''
 tags: [CTF, Forensics]
 category: CTF
@@ -22,55 +22,55 @@ draft: false
 ---
 
 ## Introduction
-Ton contenu ici...
+Your content here...
 ```
 
-Note: Le frontmatter (`--- ... ---`) est retire automatiquement a l'affichage du post.
+Note: The frontmatter (`--- ... ---`) is automatically removed when rendering the post.
 
-## Etape 2: Importer le markdown dans src/data/posts.js
+## Step 2: Import the markdown file in src/data/posts.js
 
-En haut du fichier `src/data/posts.js`, ajoute un import:
+At the top of `src/data/posts.js`, add an import:
 
 ```js
-import monNouveauWriteup from '../../guide/mon-nouveau-writeup.md?raw';
+import myNewWriteup from '../../guide/my-new-writeup.md?raw';
 ```
 
-## Etape 3: Ajouter l'objet post dans le tableau posts
+## Step 3: Add a post object to the posts array
 
-Dans le tableau `posts`, ajoute un objet:
+In the `posts` array, add an object like this:
 
 ```js
 {
-  id: 'mon-nouveau-writeup',
-  title: 'Mon nouveau writeup',
+  id: 'my-new-writeup',
+  title: 'My new writeup',
   date: '2026-03-15',
-  description: 'Courte description de ton post',
+  description: 'Short description of your post',
   tags: ['CTF', 'Forensics'],
   category: 'CTF',
   image: null,
   readTime: '4 min',
   wordCount: 600,
-  content: stripFrontmatter(monNouveauWriteup),
+  content: stripFrontmatter(myNewWriteup),
 }
 ```
 
-## Etape 4: Verifier
+## Step 4: Verify
 
-Lance:
+Run:
 
 ```bash
 pnpm build
 ```
 
-Si le build passe, le post apparaitra:
+If the build passes, the post will appear:
 
-- sur la Home
-- dans Archive
-- dans la page detail `/posts/<id>`
+- on Home
+- in Archive
+- on the detail page `/posts/<id>`
 
-## Conseils
+## Tips
 
-- Garde un `id` unique (utilise kebab-case).
-- Utilise une date au format `YYYY-MM-DD`.
-- Les tags et la categorie servent aux filtres de la page Archive.
-- Mets a jour `readTime` et `wordCount` pour une meilleure presentation.
+- Keep `id` unique (use kebab-case).
+- Use date format `YYYY-MM-DD`.
+- Tags and category are used by Archive filters.
+- Update `readTime` and `wordCount` for better presentation.
