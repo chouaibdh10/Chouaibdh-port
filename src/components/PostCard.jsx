@@ -1,30 +1,39 @@
 import { Link } from 'react-router-dom';
-import { FiCalendar, FiClock } from 'react-icons/fi';
+import { FiArrowUpRight, FiCalendar, FiClock } from 'react-icons/fi';
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, compact = false }) {
   return (
-    <Link to={`/posts/${post.id}`} className="card post-card no-image" style={{ textDecoration: 'none' }}>
+    <Link
+      to={`/posts/${post.id}`}
+      className={`post-card ${compact ? 'post-card-compact' : ''}`}
+    >
       <div className="post-card-content">
         <div className="post-card-meta">
           <span className="post-card-category">{post.category}</span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+          <span className="meta-item">
             <FiCalendar size={13} />
             {post.date}
           </span>
         </div>
-        <div className="post-card-title">{post.title}</div>
+        <div className="post-card-heading">
+          <h3 className="post-card-title">{post.title}</h3>
+          <FiArrowUpRight className="post-card-arrow" />
+        </div>
+        {(post.platform || post.difficulty) && (
+          <div className="post-card-context">
+            {post.platform && <span>{post.platform}</span>}
+            {post.difficulty && <span>{post.difficulty}</span>}
+          </div>
+        )}
+        <p className="post-card-desc">{post.description}</p>
         <div className="post-card-tags">
-          {post.tags.map((tag, i) => (
-            <span key={tag}>
-              {tag}
-              {i < post.tags.length - 1 ? ' /' : ''}
-            </span>
+          {post.tags.slice(0, compact ? 3 : 4).map((tag) => (
+            <span key={tag}>#{tag}</span>
           ))}
         </div>
-        <div className="post-card-desc">{post.description}</div>
-        <div className="post-card-footer" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+        <div className="post-card-footer">
           <FiClock size={13} />
-          {post.wordCount} words | {post.readTime}
+          {post.readTime}
         </div>
       </div>
     </Link>

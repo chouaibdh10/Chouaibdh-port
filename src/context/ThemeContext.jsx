@@ -10,7 +10,7 @@ export function ThemeProvider({ children }) {
   });
 
   const [hue, setHue] = useState(() => {
-    return parseInt(localStorage.getItem('hue') || '200', 10);
+    return parseInt(localStorage.getItem('hue') || '164', 10);
   });
 
   useEffect(() => {

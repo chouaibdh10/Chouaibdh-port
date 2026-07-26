@@ -1,34 +1,19 @@
 import { Link } from 'react-router-dom';
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
-import { useTheme } from '../context/ThemeContext';
-import { getCategories, getTags } from '../data/posts';
+import { FiArrowUpRight } from 'react-icons/fi';
+import { ctfWriteups, getCategories } from '../data/posts';
 
 export default function Sidebar() {
-  const { hue, setHue } = useTheme();
-  const categories = getCategories();
-  const tags = getTags();
+  const categories = getCategories(ctfWriteups);
 
   return (
     <aside className="sidebar">
-      {/* Profile Card */}
-      <div className="card profile-card">
-        <img
-          src="/DSC_0346.jpg"
-          alt="Boudouh Ahmed Chouaib"
-          style={{
-            width: 120,
-            height: 120,
-            borderRadius: '50%',
-            objectFit: 'cover',
-            objectPosition: 'top',
-            margin: '0 auto 1rem',
-            display: 'block',
-            border: '3px solid var(--primary)',
-            boxShadow: '0 4px 16px rgba(0,0,0,0.15)',
-          }}
-        />
+      <div className="panel profile-card">
+        <img src="/DSC_0346.jpg" alt="Boudouh Ahmed Chouaib" className="avatar" />
         <div className="name">Boudouh Ahmed Chouaib</div>
-        <div className="bio">CTF Player | Cybersecurity Enthusiast</div>
+        <div className="bio">
+          Cybersecurity student, CTF player, and web developer based in Algeria.
+        </div>
         <div className="profile-links">
           <a
             href="https://www.linkedin.com/in/ahmed-chouaib-boudouh-34a3a52bb/"
@@ -49,53 +34,35 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Color Theme */}
-      <div className="card">
-        <div className="color-picker-container">
-          <span className="color-picker-label">Theme Color</span>
-          <input
-            type="range"
-            min="0"
-            max="360"
-            value={hue}
-            onChange={(e) => setHue(Number(e.target.value))}
-            className="color-slider"
-          />
-          <span className="hue-value">{hue}</span>
+      <div className="panel sidebar-section">
+        <div className="sidebar-title-row">
+          <h3>Challenge index</h3>
+          <span>{ctfWriteups.length}</span>
         </div>
-      </div>
-
-      {/* Categories */}
-      <div className="card sidebar-section">
-        <h3>Categories</h3>
         <div className="category-list">
-          {categories.map((cat) => (
+          {categories.map((category) => (
             <Link
-              key={cat.name}
-              to={`/archive?category=${encodeURIComponent(cat.name)}`}
+              key={category.name}
+              to={`/ctf?category=${encodeURIComponent(category.name)}`}
               className="category-item"
             >
-              {cat.name}
-              <span className="count">{cat.count}</span>
+              <span>{category.name}</span>
+              <span className="count">{category.count}</span>
             </Link>
           ))}
         </div>
       </div>
 
-      {/* Tags */}
-      <div className="card sidebar-section">
-        <h3>Tags</h3>
-        <div className="tag-list">
-          {tags.map((tag) => (
-            <Link
-              key={tag}
-              to={`/archive?tag=${encodeURIComponent(tag)}`}
-              className="tag-item"
-            >
-              {tag}
-            </Link>
-          ))}
-        </div>
+      <div className="panel sidebar-cta">
+        <span className="eyebrow">Source repository</span>
+        <p>Browse challenge files, solve scripts, and original Markdown on GitHub.</p>
+        <a
+          href="https://github.com/chouaibdh10/My_CTF_Challenges__Writeups"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open repository <FiArrowUpRight />
+        </a>
       </div>
     </aside>
   );
