@@ -460,16 +460,28 @@ pre {
   background: #47d17b;
 }
 
-.terminal-card code {
-  display: grid;
+.terminal-body {
+  display: flex;
+  flex-direction: column;
+  font-family: 'JetBrains Mono', Consolas, monospace;
   font-size: clamp(0.63rem, 1.4vw, 0.78rem);
-  grid-template-columns: 16px 1fr;
-  line-height: 1.85;
+  line-height: 1.5;
 }
 
-.terminal-card strong {
+.terminal-command {
+  display: grid;
+  gap: 0.35rem;
+  grid-template-columns: 12px minmax(0, 1fr);
+}
+
+.terminal-output {
   color: white;
   font-weight: 600;
+  padding-left: calc(12px + 0.35rem);
+}
+
+.terminal-output + .terminal-command {
+  margin-top: 0.55rem;
 }
 
 .terminal-prompt {

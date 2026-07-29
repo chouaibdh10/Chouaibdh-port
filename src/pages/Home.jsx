@@ -47,12 +47,18 @@ export default function Home() {
           </div>
           <div className="terminal-card">
             <div className="terminal-dots"><span /><span /><span /></div>
-            <code>
-              <span className="terminal-prompt">$</span> whoami
-              <strong>chouaibdh</strong>
-              <span className="terminal-prompt">$</span> focus --current
-              <strong>DFIR / CTF / Web</strong>
-            </code>
+            <div className="terminal-body">
+              <div className="terminal-command">
+                <span className="terminal-prompt">$</span>
+                <span>whoami</span>
+              </div>
+              <div className="terminal-output">chouaibdh</div>
+              <div className="terminal-command">
+                <span className="terminal-prompt">$</span>
+                <span>focus --current</span>
+              </div>
+              <div className="terminal-output">DFIR / CTF</div>
+            </div>
           </div>
         </div>
       </section>
