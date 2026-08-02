@@ -11,6 +11,7 @@ import retailBreach from '../content/writeups/retailbreach.md?raw';
 import playingWithPointers from '../content/writeups/dalctf-playing-with-pointers.md?raw';
 import shamirCrypto from '../content/writeups/dalctf-shamir-crypto.md?raw';
 import nmctfWorkstation from '../content/writeups/nmctf-compromised-workstation.md?raw';
+import silentPulse from '../content/writeups/silent-pulse.md?raw';
 
 const SOURCE_REPOSITORY =
   'https://github.com/chouaibdh10/My_CTF_Challenges__Writeups';
@@ -42,6 +43,20 @@ function makePost(post) {
 }
 
 const importedWriteups = [
+  {
+    id: 'silent-pulse',
+    title: 'Silent Pulse',
+    date: '2026-08-02',
+    description:
+      'Tracing an HTTP command-and-control beacon, decoding DNS-delivered tasking, and recovering an XOR-encrypted file from a PCAP.',
+    tags: ['ITC CTF', 'Network Forensics', 'PCAP', 'HTTP C2', 'Wireshark', 'XOR'],
+    category: 'Network Forensics',
+    platform: 'myNEXzero',
+    difficulty: 'Medium',
+    featured: true,
+    content: silentPulse,
+    sourceUrl: `${SOURCE_REPOSITORY}/blob/main/my-challenges/silent-pulse/solution/README.md`,
+  },
   {
     id: 'nmctf-compromised-workstation',
     title: "Coco's Compromised Workstation",

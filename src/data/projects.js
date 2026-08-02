@@ -18,7 +18,7 @@ const projects = [
     eyebrow: 'Security knowledge base',
     description:
       'A curated, reproducible collection of CTF solutions spanning DFIR, network forensics, reverse engineering, steganography, and cryptography.',
-    impact: '10 imported writeups across 6 challenge families',
+    impact: '11 imported writeups across 6 challenge families',
     stack: ['DFIR', 'Python', 'Wireshark', 'Cryptography'],
     githubUrl: 'https://github.com/chouaibdh10/My_CTF_Challenges__Writeups',
     internalUrl: '/ctf',
