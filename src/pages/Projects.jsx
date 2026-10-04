@@ -44,7 +44,7 @@ export default function Projects() {
             </div>
             <div className="project-art" aria-hidden="true">
               <span className="art-orbit" />
-              <span className="art-core">{project.id === 'dz-fellah' ? 'DZ' : 'CTF'}</span>
+              <span className="art-core">{project.artLabel}</span>
               <span className="art-line art-line-one" />
               <span className="art-line art-line-two" />
             </div>

@@ -9,24 +9,15 @@ export function ThemeProvider({ children }) {
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   });
 
-  const [hue, setHue] = useState(() => {
-    return parseInt(localStorage.getItem('hue') || '164', 10);
-  });
-
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
   }, [isDark]);
 
-  useEffect(() => {
-    document.documentElement.style.setProperty('--hue', hue);
-    localStorage.setItem('hue', hue);
-  }, [hue]);
-
   const toggleTheme = () => setIsDark((prev) => !prev);
 
   return (
-    <ThemeContext.Provider value={{ isDark, toggleTheme, hue, setHue }}>
+    <ThemeContext.Provider value={{ isDark, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );
